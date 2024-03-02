@@ -1,0 +1,150 @@
+import javafx.application.Application;
+import javafx.stage.Stage;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.layout.*;
+import javafx.event.EventHandler;
+import javafx.event.ActionEvent;
+import javafx.geometry.Insets;
+
+
+
+public class Calculator extends Application
+{
+   private Button submit;
+   private Label display;
+   private String num = "";
+   private String data;
+   @Override   
+   public void start( Stage stage)
+   {  
+      BorderPane root = new BorderPane();
+      GridPane grid = new GridPane();
+      GridPane gridp = new GridPane();
+      display = new Label();
+            HBox box = new HBox( display );
+      
+      DigitHandler handleDigit = new DigitHandler();
+      OperantHandler handleOp = new OperantHandler();
+      SubmitHandler handleSubmit = new SubmitHandler();
+
+      root.setTop( box );
+      root.setCenter( grid );
+      root.setBottom( gridp );
+      
+      Button bttn1 = new Button("1");
+      bttn1.setOnAction( handleDigit );
+      
+      Button bttn2 = new Button("2");
+      bttn2.setOnAction( handleDigit );
+
+      Button bttn3 = new Button("3");
+      bttn3.setOnAction( handleDigit );
+
+      Button bttn4 = new Button("4");
+      bttn4.setOnAction( handleDigit );
+
+      Button bttn5 = new Button("5");
+      bttn5.setOnAction( handleDigit );
+
+      Button bttn6 = new Button("6");
+      bttn6.setOnAction( handleDigit );
+
+      Button bttn7 = new Button("7");
+      bttn7.setOnAction( handleDigit );
+
+      Button bttn8 = new Button("8");
+      bttn8.setOnAction( handleDigit );
+
+      Button bttn9 = new Button("9");
+      bttn9.setOnAction( handleDigit );
+
+      Button bttn0 = new Button("0"); 
+      bttn0.setOnAction( handleDigit);
+
+      Button add = new Button("+");
+      add.setOnAction( handleOp );
+      
+      Button sub = new Button("-");
+      sub.setOnAction( handleOp );
+      
+      Button mult = new Button("*");
+      mult.setOnAction( handleOp );
+      
+      Button div = new Button("/");
+      div.setOnAction( handleOp );
+      
+      Button submit = new Button("Submit");
+      submit.setOnAction( handleSubmit );
+     
+      grid.add( bttn1, 1, 0);
+      grid.add( bttn2, 2, 0);
+      grid.add( bttn3, 3, 0);
+      grid.add( bttn4, 1, 1);
+      grid.add( bttn5, 2, 1);
+      grid.add( bttn6, 3, 1);
+      grid.add( bttn7, 1, 2);
+      grid.add( bttn8, 2, 2);
+      grid.add( bttn9, 3, 2);
+      grid.add( bttn0, 2, 3);
+     
+      grid.add( add, 4, 0);
+      grid.add( sub, 4, 1);
+      grid.add( mult, 4, 2);
+      grid.add( div, 4, 3);
+      
+      gridp.add(submit, 2, 0);
+      
+
+     
+      Scene scene = new Scene( root );
+      stage.setScene( scene );
+      stage.show(); //show window
+   }
+   
+   class DigitHandler implements EventHandler<ActionEvent>
+   {
+      @Override 
+      public void handle( ActionEvent e)
+      {
+         Button x = (Button)e.getSource();
+         String textOfButton = x.getText();
+         String digit = x.getText();
+         num += digit;
+         display.setText( num );
+         double data = getTextFromButton(num);
+          
+         System.out.print(data);
+      }
+       public double getTextFromButton( String x)
+      {
+         double dataAsDouble = Double.parseDouble(x);
+         return dataAsDouble;
+      }
+
+              }
+   class OperantHandler implements EventHandler<ActionEvent>
+   {
+      @Override
+      public void handle( ActionEvent e)
+      {
+         Button x = (Button)e.getSource();
+         String Op = x.getText();
+         if( Op.equals( "+" ) )
+         {
+            num = "";
+            
+            
+         }
+      }
+   }
+   class SubmitHandler implements EventHandler<ActionEvent>
+   {
+      @Override
+      public void handle( ActionEvent e)
+      {
+        //code to be executed when submit button is pressed.
+        
+      }
+   }
+}

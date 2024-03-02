@@ -1,0 +1,43 @@
+public class DecimalToHex extends Converter
+{
+     //constructor
+   public DecimalToHex( long value )
+   {
+      super( value );
+      this.base = 16;
+   }
+   
+   //convert method returns converted value
+   @Override
+   public String convert()
+   {
+      long localCopy = this.value;
+      
+      do
+      {
+         byte bit = (byte)(localCopy % base);
+         switch (bit){
+         
+            case 10: this.answer = 'A' + this.answer;
+               break;
+            case 11: this.answer = 'B' + this.answer;
+               break;
+            case 12: this.answer = 'C' + this.answer;
+               break;
+            case 13: this.answer = 'D' + this.answer;
+               break;
+            case 14: this.answer = 'E' + this.answer;
+               break;
+            case 15: this.answer = 'F' + this.answer;
+               break;
+            default: this.answer = bit + this.answer;
+               break;            
+         }
+         
+         localCopy /= base;
+      }while( localCopy > 0 );
+      
+      return this.answer;
+   }//end convert
+   
+}//end class

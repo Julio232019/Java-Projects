@@ -1,0 +1,25 @@
+public abstract class Converter
+{
+   //fields 
+   protected long value;
+   protected String answer;
+   protected byte base;
+   
+   //constructor
+   protected Converter( long value )
+   {
+      this.value = value;
+      this.answer = "";
+   }
+   
+   //abstract methods
+   public abstract String convert(); //abstract methods have no body
+   
+   //toString 
+   @Override
+   public String toString()
+   {
+      return this.value + " -> " + this.answer;
+   }
+   
+}  

@@ -1,0 +1,25 @@
+public class DecimalToOctal extends Converter
+{   
+   //constructor
+   public DecimalToOctal( long value )
+   {
+     super( value );
+     this.base = 8;
+   }
+   
+   //convert method returns converted value
+   @Override
+   public String convert()
+   {
+      long localCopy = this.value;
+      
+      do
+      {
+         byte bit = (byte)(localCopy % base);
+         this.answer = bit + this.answer;
+         localCopy /= base;
+      }while( localCopy > 0 );
+      
+      return this.answer;
+   }
+}

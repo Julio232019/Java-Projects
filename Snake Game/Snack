@@ -1,0 +1,31 @@
+import java.util.ArrayList;
+
+public class Snack
+{
+   private Block snack;
+   int width, height, size;
+   
+   public Snack(int w, int h, int size)
+   {  
+      this.width = w;
+      this.height = h;
+      this.size = size;
+      int randX = (int)( w/size*Math.random())*size;
+      int randY = (int)( h/size*Math.random())*size;
+      snack = new Block(randX, randY);
+      
+   }
+   
+   public Block getSnack() { return this.snack; }
+   
+   public void updateSnack()
+   {
+      
+      int rand2X = (int)( this.width/size*Math.random())*size;
+      int rand2Y = (int)( this.height/size*Math.random())*size;
+      
+      
+      snack = new Block(rand2X, rand2Y);
+      
+   }  
+}

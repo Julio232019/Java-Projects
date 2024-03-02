@@ -1,0 +1,98 @@
+import javafx.application.Application;
+import javafx.stage.Stage;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.layout.*;
+import javafx.event.EventHandler;
+import javafx.event.ActionEvent;
+import javafx.geometry.Insets;
+
+public class ConverterGUI_JulioLopez extends Application 
+   {
+   private Button convert;
+   private Label display;
+   private TextField numField;
+   private Label binaryNum, octalNum, hexNum;
+   
+   //start method
+    @Override
+    public void start(Stage stage) 
+    {
+                     
+      GridPane grid = new GridPane();
+      grid.setPadding( new Insets(10, 10, 10, 10) );
+      grid.setHgap( 10 );
+      grid.setVgap( 5 );
+        
+      numField = new TextField();
+      Label value = new Label("Enter value: ");
+      
+      Label binary = new Label("Binary: ");
+      Label binaryNum = new Label();
+      
+      Label octal = new Label("Octal: ");
+      Label octalNum = new Label();
+      
+      Label hex = new Label("Hexadecimal: ");
+      Label hexNum = new Label();
+      
+      convert = new Button("Convert");
+      
+      
+            
+      
+      grid.add( value, 0, 0);
+      grid.add(numField, 1, 0);
+      grid.add(convert, 1, 1);
+      grid.add(binary, 0, 2);
+      grid.add(binaryNum, 1, 2);
+      grid.add(octal, 0, 3);
+      grid.add(octalNum, 1, 3);
+      grid.add(hex, 0, 4); 
+      grid.add(hexNum, 1, 4);
+     
+    
+      //convert handler 
+         convert.setOnAction( e -> {
+         String num = numField.getText();
+           
+      try{
+            long numLong = Long.parseLong( num );
+                     
+         
+            DecimalToBinary biNum = new DecimalToBinary( numLong );
+            DecimalToHex heNum = new DecimalToHex( numLong );
+            DecimalToOctal ocNum = new DecimalToOctal( numLong );
+       
+            String ansBin = biNum.convert();
+            String ansHex = heNum.convert();
+            String ansOct = ocNum.convert();
+       
+            binaryNum.setText(  ansBin );
+            hexNum.setText( ansHex );
+            octalNum.setText( ansOct );
+            
+         }catch(NumberFormatException ex )
+         {
+            binaryNum.setText(" Value exceeds max value of a long. ");
+            hexNum.setText(" Value exceeds max value of a long. ");
+            octalNum.setText(" Value exceeds max value of a long. ");
+
+
+         }
+
+     });
+
+         Scene scene = new Scene( grid );
+         stage.setScene( scene );
+         stage.show();
+    }
+        
+   
+      //main method
+    public static void main(String[] args)
+     {
+        launch();
+    }
+        
+}

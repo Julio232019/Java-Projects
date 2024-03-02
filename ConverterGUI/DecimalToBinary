@@ -1,0 +1,26 @@
+public class DecimalToBinary extends Converter
+{  
+   //constructor
+   public DecimalToBinary( long value )
+   {
+      super( value );  //call to super constructor
+      this.base = 2;
+   }//end constructor
+   
+   //convert method returns converted value
+   @Override
+   public String convert()
+   {
+      long localCopy = this.value;
+      
+      do
+      {
+         byte bit = (byte)(localCopy % base);
+         this.answer = bit + this.answer;
+         localCopy /= base;
+      }while( localCopy > 0 );
+      
+      return this.answer;
+   }//end convert
+   
+}//end class

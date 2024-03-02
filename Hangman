@@ -1,0 +1,208 @@
+import javafx.application.Application;
+import javafx.stage.Stage;
+import javafx.scene.*;
+import javafx.scene.shape.*;
+import javafx.scene.paint.Color;
+import java.util.*;
+import javafx.scene.layout.*;
+import javafx.scene.control.*;
+import java.io.*;
+import javafx.scene.text.Font;
+import javafx.geometry.Pos;
+
+public class Hangman2 extends Application
+{
+   private Stack<Shape> shapes = new Stack<>();
+
+   @Override
+   public void start(Stage stage)
+   {
+       BorderPane root = new BorderPane();
+
+      
+      HashMap<Integer, String[]> data = readData("mammals.csv");
+     
+      //buttons
+      GridPane pad = new GridPane();
+      int row = 0;
+      int col = 0;
+      Button[] bttns = new Button[26];
+      int digit = 97;
+      for(int i = 0; i <bttns.length; i++)
+         {
+            bttns[i] = new Button("" + (char)(digit) );
+            pad.add(bttns[i], col, row );
+            col++;
+            if(col % 10 == 0){col = 0; row++;}
+            digit++;
+         }
+      
+      
+         //Hangman shape
+         Group g = new Group();
+         Rectangle r = new Rectangle();
+         r.setX(50);
+         r.setY(50);
+         r.setWidth(50);
+         r.setHeight(100);
+         r.setArcWidth(20);
+         r.setArcHeight(20); 
+         shapes.push(r);
+         Circle c = new Circle();
+         c.setCenterX(75.0f);
+         c.setCenterY(0.0f);
+         c.setRadius(25.0f);     
+         shapes.push(c);
+         Rectangle rr = new Rectangle();
+         rr.setX(80);
+         rr.setY(150);
+         rr.setWidth(50);
+         rr.setHeight(100);
+         rr.setArcWidth(20);
+         rr.setArcHeight(20); 
+         shapes.push(rr);
+         Rectangle leg = new Rectangle();
+         leg.setX(20);
+         leg.setY(150);
+         leg.setWidth(50);
+         leg.setHeight(100);
+         leg.setArcWidth(20);
+         leg.setArcHeight(20); 
+         shapes.push(leg);
+         Rectangle rArm = new Rectangle();
+         rArm.setX(100);
+         rArm.setY(50);
+         rArm.setWidth(100);
+         rArm.setHeight(50);
+         rArm.setArcWidth(20);
+         rArm.setArcHeight(20); 
+         shapes.push(rArm);
+         Rectangle lArm = new Rectangle();
+         lArm.setX(-50);
+         lArm.setY(50);
+         lArm.setWidth(100);
+         lArm.setHeight(50);
+         lArm.setArcWidth(20);
+         lArm.setArcHeight(20); 
+         shapes.push(lArm);
+      
+      
+         int rand = (int) ( data.size()*Math.random() );
+          
+         String[] arr = data.get(rand);
+           for(String a : arr)
+           System.out.println(a);
+           String answer = arr[0];
+           
+           Label[] ansChar = new Label[answer.length()];
+           Label[] under = new Label[answer.length()];
+           for(int i = 0; i< answer.length(); i++)
+           {
+               String a = Character.toString(answer.charAt(i) );
+               System.out.println(a);
+               ansChar[i] =new Label("");
+               under[i] = new Label("");
+               ansChar[i].setText(a);
+               under[i].setText("_");
+               ansChar[i].setFont(new Font("Arial", 20));
+               under[i].setFont(new Font("Arial", 20) );
+   
+           }
+           
+         GridPane grid = new GridPane();
+         int column = 0;
+         for(Label u : under)
+         {
+            grid.add(u, column, 0);
+            column++;
+         }
+         root.setRight(grid);
+         root.setAlignment(grid, Pos.CENTER_RIGHT);
+         
+         
+      
+      
+           //setOnAction
+      for( Button b : bttns )
+      {
+         
+      b.setOnAction(e -> { 
+      
+
+      for(int i = 0; i < ansChar.length; i++)
+      {
+         
+         if(b.getText().toLowerCase().equals(ansChar[i].getText().toLowerCase() ) )
+         {
+            under[i].setText(ansChar[i].getText() );
+         }
+      }
+      
+         
+      if(!answer.toLowerCase().contains( b.getText() ) )
+      {
+          g.getChildren().add(shapes.pop() ); 
+          b.setStyle("-fx-background-color: #ff0000");
+      }else
+      {
+          b.setStyle("-fx-background-color: #00ff00");
+                 
+      }
+      
+      if(shapes.isEmpty() == true)
+      {
+         Label label = new Label("You Lose");
+         root.setTop(label);
+         
+      }else
+      {
+         String s = "";
+         for(int i = 0; i< under.length; i++)
+         {
+            s += under[i].getText();
+         }
+         if( s.equals(answer) )
+         {
+            Label label = new Label("You Win!");
+            root.setTop( label );
+
+         }
+       }
+     
+      });
+      
+      }
+      
+      
+      Label hint = new Label("Hint: " + rand);
+      root.setLeft(hint);
+      //layout
+      root.setCenter(g);
+      root.setBottom(pad);
+      Scene scene = new Scene(root);
+      stage.setScene(scene);
+      stage.show();    
+   }  
+   
+   public HashMap<Integer, String[]> readData(String filename)
+   {
+      HashMap<Integer, String[]> data = new HashMap<>();
+      int key = 0;
+      
+      try{
+            File f = new File(filename);
+            Scanner scan = new Scanner(f);
+            while(scan.hasNextLine() )
+            {
+               String[] value = scan.nextLine().split(",");
+               data.put(key, value);
+               key++;
+            }
+         }catch( FileNotFoundException e )
+         {
+            System.out.println("File Not Found.");
+         }
+     return data;
+   }
+   
+}
